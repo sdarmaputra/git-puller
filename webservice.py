@@ -42,16 +42,19 @@ def startDeploy(appName, repoName):
 		taskList.append(appName)
 		rewriteTaskList('runningTask.conf', taskList)
 		puller.initTask(appName, repoName)
-		return {'status': 'success', 'app_name': appName}
+		return {'state': 'finished', 'status': 'success', 'app_name': appName}
 	else:
-		return {'status': 'running', 'app_name': appName}
+		return {'state': 'running', 'status': 'running','app_name': appName}
 
 
 class PullAndDeploy(tornado.web.RequestHandler):
-	@tornado.web.asynchronous
 	def get(self):
-		appName = 'dokumentasi_lfs'
-		repoName = 'https://github.com/sdarmaputra/dokumentasi_lfs.git'
+		self.write('Nothing to do.')
+
+	@tornado.web.asynchronous
+	def post(self):
+		appName = self.get_argument('app_name')
+		repoName = self.get_argument('repo_name')
 		runBackground(startDeploy, self.on_complete, (appName, repoName))
 		
 	
@@ -61,10 +64,8 @@ class PullAndDeploy(tornado.web.RequestHandler):
 			taskList = getTaskList('runningTask.conf')
 			taskList.remove(res.get('app_name'))
 			rewriteTaskList('runningTask.conf', taskList)
-			self.write('Success!')
-		else:
-			self.write('Already running!')
 		
+		self.write(res)
 		self.finish()
 
 
