@@ -1,0 +1,6 @@
+{
+	"replace" : {
+		"application/config/database.php" : "database.php",
+		"application/config/config.php" : "config.php"
+	}
+}
