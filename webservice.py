@@ -8,7 +8,7 @@ import puller
 import helper
 
 printLog = helper.printLog
-serverUrl = "http://10.151.36.93"
+serverUrl = "http://10.151.38.149"
 runningTask = []
 
 _workers = ThreadPool(10)

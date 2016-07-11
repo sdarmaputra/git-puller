@@ -11,7 +11,7 @@ from docker import Client
 printLog = helper.printLog
 
 docker_client = Client(base_url = 'unix://var/run/docker.sock')
-parent_dir = '/home/jiwa/tugasakhir/app-sandbox/'
+parent_dir = '/home/kromatin/tugasakhir/app-sandbox/'
 
 # Create sanbox directory
 def setupDirectory(app_dir, www_dir):
