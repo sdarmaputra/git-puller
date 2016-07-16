@@ -4,11 +4,11 @@ from tornado import gen
 from cStringIO import StringIO
 from multiprocessing.pool import ThreadPool
 import sys
-import puller
+from puller import Puller
 import helper
 
 printLog = helper.printLog
-serverUrl = "http://10.151.38.149"
+serverUrl = "http://10.151.36.93"
 runningTask = []
 
 _workers = ThreadPool(10)
@@ -42,6 +42,7 @@ def startDeploy(appName, repoName, appPort, configFile, customFiles):
 		taskList = getTaskList('runningTask.conf')
 		taskList.append(appName)
 		rewriteTaskList('runningTask.conf', taskList)
+		puller = Puller()
 		puller.initTask(appName, repoName, appPort, configFile, customFiles)
 		return {'state': 'finished', 'status': 'success', 'app_name': appName, 'app_port': appPort, 'app_server': serverUrl}
 	else:
@@ -69,7 +70,10 @@ class PullAndDeploy(tornado.web.RequestHandler):
 			taskList = getTaskList('runningTask.conf')
 			taskList.remove(res.get('app_name'))
 			rewriteTaskList('runningTask.conf', taskList)
-		
+
+		self.set_header("Access-Control-Allow-Origin", "*")
+		self.set_header("Access-Control-Allow-Headers", "x-requested-with")
+		self.set_header("Access-Control-Allow-Methods", "POST, GET")
 		self.write(res)
 		self.finish()
 
