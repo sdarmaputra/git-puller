@@ -107,7 +107,7 @@ class Puller(object):
 	def setupSandbox(self, app_name, www_dir, app_port):
 		printLog("-------Starting Container Activities!-------")
 		containers = docker_client.containers(all=True)
-		print containers
+		
 		# Check if container name already exists
 		if any(container['Names'][0] == ('/' + app_name) for container in containers):
 			printLog("Container already running!")

@@ -65,7 +65,6 @@ class PullAndDeploy(tornado.web.RequestHandler):
 		
 	
 	def on_complete(self, res):
-		print res
 		if (res.get('status') == 'success'):
 			taskList = getTaskList('runningTask.conf')
 			taskList.remove(res.get('app_name'))
